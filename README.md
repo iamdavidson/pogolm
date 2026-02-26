@@ -346,8 +346,8 @@ This repo demonstrates how to include POGOLM in your own packages, configure it,
 
 ### Inputs you must provide
 
-* Publish LiDAR point clouds to: `/pogolm/lidar_in`
-* Publish odometry to: `/pogolm/odom_in`
+* Adjust the LiDAR topic: `lidar_in`
+* Adjust the odometry topic: `odom_in`
 
 ### Optional visualization
 
