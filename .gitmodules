@@ -1,0 +1,6 @@
+[submodule "include/ikd-Tree"]
+	path = include/ikd-Tree
+	url = https://github.com/iamdavidson/ikd-Tree.git
+[submodule "include/scancontext"]
+	path = include/scancontext
+	url = https://github.com/iamdavidson/scancontext_tro.git
