@@ -210,7 +210,7 @@ sudo ldconfig
 </details>
 
 <details>
-<summary><b>GTSAM</b> (only if you don't use <code>ros-*-gtsam</code>)</summary>
+<summary><b>GTSAM</b> (only if you don't use the apt installation presented earlier)</summary>
 
 ```bash
 cd ~/third_party
