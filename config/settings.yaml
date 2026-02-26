@@ -1,0 +1,80 @@
+# ======================================================================================
+# Loop Detector parameters
+# ======================================================================================
+loop_detector:
+  ros__parameters:
+
+    # Enable/disable verbose logging.
+    # If false, only essential logs/errors are printed.
+    verbose: false
+
+    # Minimum key distance between the current keyframe and a loop candidate.
+    # The H_R history subset (according to bachelor thesis).
+    min_loop_length: 40
+
+    log_path: "/tmp/pogolm/log_loop_detector.txt"
+
+
+# ======================================================================================
+# Pose Graph parameters
+# ======================================================================================
+pose_graph:
+  ros__parameters:
+
+    # Enable/disable verbose logging for the pose graph node.
+    verbose: false
+
+    # Input point cloud topic.
+    lidar_in: "/velodyne_points"
+
+    # Input odometry topic.
+    odom_in: "/pelorus/odom"
+
+    # Frame id written into published messages from this node.
+    # Does not automatically transform data; it is a metadata label.
+    operating_frame_id: "lio_init"
+
+    # Range threshold used to filter points by distance (meters).
+    # Points beyond this range may be dropped
+    pc_range_thres: 150.
+
+    # Keyframe insertion: minimum translation (meters) required to add a new pose
+    # unless an anchor is forced (e.g., for landmark anchoring).
+    linear_criteria_min_dist: 3.0
+
+    # Keyframe insertion: minimum yaw change (radians) required to add a new pose.
+    # 0.349 rad is ~20 degrees.
+    angular_criteria_min_yaw: 0.349
+
+    # Keyframe insertion: if no keyframe is added for this duration (seconds),
+    # and the distance condition is also satisfied, a keyframe is forced.
+    timeout_criteria_min_time: 3.0
+
+    # Keyframe insertion: minimum translation (meters) for timeout-based insertion.
+    timeout_criteria_min_dist: 1.0
+
+    # If true, derive pose increment covariance from ROS twist covariance and dt.
+    # This makes factor uncertainty scale with speed and time.
+    dynamic_pose_cov: true
+
+    # Static Noise.
+    bearing_sigmas:   [ 0.1,  0.1,  0.2 ]
+    odometry_sigmas:  [ 0.1,  0.1,  0.1,  0.3,  0.3,  0.05 ]
+    loop_sigmas:      [ 0.1,  0.1,  0.1,  0.1,  0.1,  0.1 ]
+    prior_sigmas:     [ 0.01, 0.01, 0.01,  0.1,  0.1,  0.1 ]
+
+    # Landmark neighbor merge radius (meters) in the IKD-tree.
+    # After PGO, landmarks within this range may be merged
+    range_radius: 0.4
+
+    # Enable saving trajectories at shutdown (TUM format).
+    save_trajecotry: true
+    trajectory_path: "/tmp/pogolm"
+    log_path: "/tmp/pogolm/log_pose_graph.txt"
+
+
+
+    # linear_criteria_min_dist: 10.0
+    # timeout_criteria_min_time: 7.0 
+    # angular_criteria_min_yaw: 0.5   
+    # timeout_criteria_min_dist: 0.3

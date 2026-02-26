@@ -1,0 +1,9 @@
+.vscode/
+build/
+tmp/
+.appendix
+test.txt
+experiments/
+.cache/
+.clangd
+.clang-format
