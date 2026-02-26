@@ -6,13 +6,11 @@ POGOLM (**PO**se **G**raph **O**ptimization and **L**andmark **M**anagement) is 
 
 ## Why POGOLM?
 
-Incremental odometry accumulates drift. POGOLM reduces long-term drift by:
+Incremental odometry accumulates drift. POGOLM reduces long-term (global) drift by:
 - detecting loop closures online,
 - inserting loop constraints into a pose graph,
 - optimizing the full graph (robot poses + optional landmarks),
 - and exposing a globally consistent “generic map” output that downstream modules can consume.
-
-At the same time, POGOLM avoids a common pitfall in ROS 2 mapping stacks: **rewriting past poses breaks time-dependent TF chains**. Instead of relying on TF2 to “rewrite history”, POGOLM maintains its own consistent transform update logic after each optimization.
 
 ---
 
@@ -49,12 +47,12 @@ POGOLM can be used in two ways:
 - Preprocesses and stores point clouds into binary storage for reuse by other nodes.
 - Provides landmark storage and query services (and/or API calls).
 
-**Key inputs**
+**Inputs**
 - `/pogolm/lidar_in` (`sensor_msgs/msg/PointCloud2`): LiDAR point clouds (ordered or unordered). Points beyond a configured range are filtered.
 - `/pogolm/odom_in` (`geometry_msgs/msg/Odometry`): odometry poses used to create successive constraints.
   - Optional: use covariance from messages if `dynamic_pose_cov` is enabled; otherwise a static noise model is used.
 
-**Optimization behavior**
+**Optimization**
 - Uses GTSAM factor graph types such as priors, between-factors for odometry edges, and landmark-related factors.
 - Runs only **one optimization at a time** by delegating optimization work to a dedicated thread and buffering loop candidates.
 
@@ -108,10 +106,11 @@ A concrete reference implementation of the workflow described in the thesis is a
 ## Requirements
 
 ### Platform
-- Ubuntu + ROS 2 
+- Ubuntu 
+- ROS 2 
 
 ### Core dependencies
-- **GTSAM 4.2** recommended  
+- **GTSAM 4.2**  
   - Prefer installing via ROS packages if available, e.g. `ros-<distro>-gtsam`.
 - **small_gicp** (ICP refinement)
 - **ROBIN** (dependency of KISS-Matcher)
@@ -138,7 +137,7 @@ A concrete reference implementation of the workflow described in the thesis is a
 
 ### 1) Source ROS 2
 ```bash
-source /opt/ros/jazzy/setup.bash
+source /opt/ros/<distro>/setup.bash
 ````
 
 ### 2) Install system dependencies
@@ -167,8 +166,8 @@ rosdep update
 > If you install GTSAM via apt/ROS packages, do it here as well (recommended):
 
 ```bash
-# example (pick your distro)
-sudo apt-get install -y ros-jazzy-gtsam
+# example 
+sudo apt-get install -y ros-<distro>-gtsam
 ```
 
 ### 3) Clone repositories into your ROS 2 workspace
@@ -176,8 +175,8 @@ sudo apt-get install -y ros-jazzy-gtsam
 ```bash
 cd ~/ros2_ws/src
 
-# POGOLM (this repo)
-git clone --recurse-submodules https://github.com/iamdavidson/POGOLM.git
+# POGOLM 
+git clone --recurse-submodules https://github.com/iamdavidson/pogolm.git
 
 # Required: message/service definitions
 git clone https://github.com/iamdavidson/pogolm_interfaces.git
@@ -293,6 +292,17 @@ source install/setup.bash
 ```
 
 ---
+
+
+### RViz Factor Graph Plugins (optional)
+
+If you cloned and built `rviz_factor_graph_plugins`, you can visualize the pose graph in RViz.
+
+#### Usage
+1. Build your workspace and source it
+2. Run `rviz2` and add the display type `FactorGraph`
+3. Select `/pogolm/pose_graph` as the topic
+
 
 ## Running POGOLM
 
