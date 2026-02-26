@@ -113,6 +113,9 @@ A concrete reference implementation of the workflow described in the thesis is a
 ### Core dependencies
 - **GTSAM 4.2** recommended  
   - Prefer installing via ROS packages if available, e.g. `ros-<distro>-gtsam`.
+- **small_gicp** (ICP refinement)
+- **ROBIN** (dependency of KISS-Matcher)
+- **KISS-Matcher** (global registration refinement; depends on ROBIN)
 - **CMake policy CMP0144**  
   - This repository expects `cmake_policy(SET CMP0144 NEW)`. If your toolchain is older or conflicts, you can switch the policy in `CMakeLists.txt` as a fallback.
 
@@ -129,7 +132,7 @@ A concrete reference implementation of the workflow described in the thesis is a
 - (Optional) RViz factor-graph plugins for visualization
 
 
-## Installation (ROS 2 workspace)
+## Installation
 
 > The steps below merge your provided instructions and update repository names/requirements for POGOLM.
 
@@ -293,6 +296,11 @@ source install/setup.bash
 
 ## Running POGOLM
 
+POGOLM supports two integration styles:
+
+- **Standalone mode (ROS 2 nodes + launch files)**: run the nodes as regular ROS 2 processes and communicate via topics/services.
+- **API mode (embedded)**: link against the POGOLM API and run it inside your own process/executor, with direct function calls in addition to ROS interfaces.
+
 ### Standalone mode (launch)
 
 After building, run the included launch file (exact file names may differ by branch):
@@ -300,6 +308,33 @@ After building, run the included launch file (exact file names may differ by bra
 ```bash
 ros2 launch pogolm pgo_launch_components.launch.py
 ```
+
+### API mode (embedded)
+
+In **API mode**, you integrate POGOLM as a library into your own ROS 2 application. This is useful when you want
+tight control over threading/executors, or when you prefer synchronous member-function calls over topic/service wiring.
+
+#### Minimal reference
+
+A small reference implementation is provided in:
+
+* `src/test_node` (shows how to construct and use the API inside a node)
+
+You can either:
+
+1. **Run the test node directly** 
+```bash
+ros2 run pogolm test_node
+```
+2. **Copy the integration pattern** into your own project and link/include POGOLM as a dependency.
+
+#### Example projects using API mode
+
+For a complete example of embedding POGOLM into a external project, see:
+
+* `https://github.com/iamdavidson/pogolm_landmark_usage.git`
+
+This repo demonstrates how to include POGOLM in your own packages, configure it, and use the landmark query/management workflow in practice.
 
 ### Inputs you must provide
 
