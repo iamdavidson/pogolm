@@ -106,12 +106,12 @@ A concrete reference implementation of the workflow described in the thesis is a
 ## Requirements
 
 ### Platform
-- Ubuntu 
-- ROS 2 
+- Ubuntu 22.04
+- ROS2 (this project was built and tested on ROS2 Jazzy)
 
 ### Core dependencies
 - **GTSAM 4.2**  
-  - Prefer installing via ROS packages if available, e.g. `ros-<distro>-gtsam`.
+  - Prefer installing via ROS packages if available `ros-<distro>-gtsam`.
 - **small_gicp** (ICP refinement)
 - **ROBIN** (dependency of KISS-Matcher)
 - **KISS-Matcher** (global registration refinement; depends on ROBIN)
@@ -133,9 +133,8 @@ A concrete reference implementation of the workflow described in the thesis is a
 
 ## Installation
 
-> The steps below merge your provided instructions and update repository names/requirements for POGOLM.
-
 ### 1) Source ROS 2
+
 ```bash
 source /opt/ros/<distro>/setup.bash
 ````
@@ -163,10 +162,9 @@ sudo rosdep init
 rosdep update
 ```
 
-> If you install GTSAM via apt/ROS packages, do it here as well (recommended):
+> Installing GTSAM via apt (recommended):
 
 ```bash
-# example 
 sudo apt-get install -y ros-<distro>-gtsam
 ```
 
@@ -313,7 +311,7 @@ POGOLM supports two integration styles:
 
 ### Standalone mode (launch)
 
-After building, run the included launch file (exact file names may differ by branch):
+After building, run the included launch file:
 
 ```bash
 ros2 launch pogolm pgo_launch_components.launch.py
