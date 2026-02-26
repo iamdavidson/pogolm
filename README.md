@@ -1,6 +1,6 @@
 # POGOLM 
 
-POGOLM (**PO**se **G**raph **O**ptimization and **L**andmark **M**anagement) is a C++/ROS 2 interface that adds **real-time loop detection** and **pose graph optimization** to an existing incremental SLAM/odometry pipeline—targeting **resource-constrained mobile robots**. It also provides a TF2-independent transform handling strategy so that **pose corrections for past timestamps remain consistent**, and it can **jointly optimize landmarks** with the robot trajectory and expose them via query APIs.
+POGOLM (**PO**se **G**raph **O**ptimization and **L**andmark **M**anagement) is a C++/ROS 2 interface that adds **real-time loop detection** and **pose graph optimization** to an existing incremental SLAM/odometry pipeline-targeting **resource-constrained mobile robots**. It also provides a TF2-independent transform handling strategy so that **pose corrections for past timestamps remain consistent**, and it can **jointly optimize landmarks** with the robot trajectory and expose them via query APIs.
 
 ---
 
